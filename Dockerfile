@@ -16,12 +16,16 @@ RUN apt-get -y install supervisor
 RUN mkdir -p /var/log/supervisor
 
 # Supervisor Configuration
-ADD ./supervisord/conf.d/* $SCPATH/
+ADD node.conf $SCPATH/
+
+ADD supervisord.conf $SCPATH/
 
 # Application Code
-ADD *.js* $AP/
+ADD index.js $AP/
 
-WORKDIR $AP
+ADD package.json $AP/
+
+RUN cd $AP; npm install
 
 RUN npm install
 
